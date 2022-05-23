@@ -1,0 +1,76 @@
+<script>
+	import { page } from '$app/stores'
+
+	export let pathName;
+	export let authed;
+
+	let path;
+
+	console.log('loading',  $page.url.pathname);
+	console.log('CHECK AUTHED', authed);
+
+	$: console.log('path change',$page.url.pathname);
+</script>
+
+<style>
+	nav {
+		border-bottom: 1px solid rgba(255,62,0,0.1);
+		font-weight: 300;
+		padding: 0 1em;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	/* clearfix */
+	ul::after {
+		content: '';
+		display: block;
+		clear: both;
+	}
+
+	li {
+		display: block;
+		float: left;
+	}
+
+	.selected {
+		position: relative;
+		display: inline-block;
+	}
+
+	.selected::after {
+		position: absolute;
+		content: '';
+		width: calc(100% - 1em);
+		height: 2px;
+		background-color: rgb(255,62,0);
+		display: block;
+		bottom: -1px;
+	}
+
+	a {
+		text-decoration: none;
+		padding: 1em 0.5em;
+		display: block;
+	}
+</style>
+
+<nav>
+	{#if authed}
+	<ul>
+		<li><a class='{$page.url.pathname === "/" ? "selected" : ""}' href='.'>home</a></li>
+		<li><a class='{$page.url.pathname === "/authed/protected" ? "selected" : ""}' href='/authed/protected'>Protected</a></li>
+		<!-- <li><a class='{$page.url.pathname === "about" ? "selected" : ""}' href='about'>about</a></li> -->
+		<li><a class='{$page.url.pathname === "/signout" ? "selected" : ""}' href='/signout'>signout</a></li>
+	</ul>
+	{:else}
+		<ul>
+			<li><a class='{$page.url.pathname === "/" ? "selected" : ""}' href='.'>home</a></li>
+			<li><a class='{$page.url.pathname === "/signin" ? "selected" : ""}' href='signin'>signin</a></li>
+			<li><a class='{$page.url.pathname === "/register" ? "selected" : ""}' href='register'>register</a></li>
+		</ul>
+	{/if}
+</nav>

@@ -1,0 +1,1 @@
+<h1>I should only be accessible after signing in.</h1>
