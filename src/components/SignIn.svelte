@@ -47,11 +47,9 @@
           }
         } catch (err) {
           console.log(err);
+          formErrors = [...formErrors,err];
         }
-        
-        console.log('I will sbmit this!', message);
       }
-      console.log('Sign in happens here',email,password);
     }
 </script>
 
@@ -89,13 +87,6 @@
    max-width: 20vw;
  }
 
- /* .formErrors ul {
-  list-style-type: square;
- }
-
- .formErrors ul li{
-  color: var(--error-color);
- } */
 
  .formErrorInput {
    outline-color: var(--error-color);
@@ -117,6 +108,10 @@
     </div>
     <Button className="btn btn-primary" on:click={handleSignIn} >SignIn</Button>
     <div class="formErrors">
-
+        <ul class="form-error">
+          {#each formErrors as error}
+            <li><small>{error}</small></li>
+          {/each}
+        </ul>
     </div>
 </form>

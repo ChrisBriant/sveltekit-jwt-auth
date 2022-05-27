@@ -64,6 +64,10 @@ code {
 	border-radius: 2px;
 }
 
+ul.form-error {
+	color: #970808;
+}
+
 @media (min-width: 400px) {
 	body {
 		font-size: 16px;

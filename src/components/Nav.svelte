@@ -6,10 +6,6 @@
 
 	let path;
 
-	console.log('loading',  $page.url.pathname);
-	console.log('CHECK AUTHED', authed);
-
-	$: console.log('path change',$page.url.pathname);
 </script>
 
 <style>

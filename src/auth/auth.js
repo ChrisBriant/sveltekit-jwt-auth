@@ -1,7 +1,8 @@
-//import {conn} from '../network/api';
 import decode from 'jwt-decode';
 
 const BASE_URL = 'http://localhost:8000';
+
+console.log('ENV',import.meta.env.VITE_BASE_URL);
 
 const checkAuthed = () => {
 
@@ -11,13 +12,11 @@ const checkAuthed = () => {
             const decoded = decode(accessToken);
             const tokenExpiry = new Date(decoded.exp*1000);
             const now = new Date();
-            console.log('Check Expiry',now ,tokenExpiry);
             if(now < tokenExpiry) {
                   //Hasn't expired
                   return resolve(true);
             } else {
                   //Try refresh
-                  console.log('Trying refresh');
                   const refreshToken = localStorage.getItem('refresh_token');
                   if(refreshToken) {
                     fetch(`${BASE_URL}/api/account/refresh/'`, 
@@ -39,7 +38,6 @@ const checkAuthed = () => {
                         }
                     })
                     .catch(err => {
-                        console.log('AUTH FAILURE',err);
                         return reject(false);
                     });
                   }
@@ -69,7 +67,6 @@ const authenticate = payload => {
               return res.json();
           })
           .then(data => {
-            console.log('TOKEN DATA',data, localStorage);
               if(!data.access) {
                 return reject(data.message);
               } else {
@@ -79,30 +76,10 @@ const authenticate = payload => {
               }
           })
           .catch(err => {
-              console.log('AUTH ERROR', err);
             return reject('An error occured trying to sign in.');
           });
     });
   }
-
-
-// const authenticate2 = payload => {
-//     return new Promise(async (resolve,reject) => {
-//         try{
-//             const response = await conn.post('/api/account/authenticate/',payload);
-//             localStorage.setItem('access_token',response.data.access);
-//             localStorage.setItem('refresh_token',response.data.refresh);
-//             return resolve('Success');
-//         } catch(err) {
-//             if(err.response.data.message) {
-//               return reject(err.response.data.message);
-//             } else {
-//               return reject('An error occured trying to sign in.');
-//             }
-//         }
-//     });
-// }
-
 
 
 export {checkAuthed, authenticate}
